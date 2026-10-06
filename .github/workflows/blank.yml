@@ -1,0 +1,48 @@
+
+PC Virtual Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+
+    - name: Set up Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Dependencies
+      run: |
+        npm install
+
+    - name: Run Diagnostics
+      run: |
+        echo "Iniciando sistema..."
+        node --version
+
+
+    - name: Execute Main Task
+      run: |
+        echo "Executando script principal..."
+
+    - name: Keep Alive / Finalize
+      run: |
+        echo "Processo concluído com sucesso!"
+        
